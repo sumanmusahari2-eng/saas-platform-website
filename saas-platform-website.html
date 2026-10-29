@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>Meowji Platform — Rent Your Own Top-Up Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --bg2:#f6f7f9; --card:#ffffff; --ink:#101828; --muted:#667085; --line:#e6e8ec;
+  --navy:#0b1d33; --navy2:#122a47; --gold:#f5b301; --gold2:#ffcf3f; --teal:#0e9f7a; --pink:#ec4899; --rose:#be185d;
+  --radius:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0b1220; --bg2:#0f1a2e; --card:#121e33; --ink:#eef2f7; --muted:#a8b3c2; --line:#22344f; }
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+h1,h2,h3{font-family:"Plus Jakarta Sans",Inter,sans-serif;line-height:1.05;letter-spacing:-.03em;margin:0}
+.container{max-width:1180px;margin:0 auto;padding:0 20px}
+.topbar{background:var(--navy);color:#fff;text-align:center;padding:9px 16px;font-size:13px;font-weight:600}
+.topbar span{color:var(--gold2)}
+header.site{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 92%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+.logo{display:flex;align-items:center;gap:10px;font-family:"Plus Jakarta Sans";font-weight:800;font-size:20px;letter-spacing:-.03em}
+.logo-mark{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:20px}
+.logo small{display:block;font-family:Inter;font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.menu{display:flex;align-items:center;gap:6px}
+.menu a{padding:10px 14px;border-radius:999px;font-weight:600;font-size:15px;color:var(--muted)}
+.menu a.active{background:var(--navy);color:#fff}
+.menu a:hover{color:var(--ink)} .menu a.active:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:999px;font-weight:700;border:1px solid transparent;cursor:pointer;font-size:15px}
+.btn-gold{background:var(--gold);color:#111827} .btn-dark{background:var(--navy);color:#fff} .btn-outline{background:transparent;border-color:var(--line);color:var(--ink)} .btn-white{background:#fff;color:#111827}
+.hamb{display:none;width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:22px;cursor:pointer}
+@media(max-width:860px){ .menu{display:none;position:absolute;left:16px;right:16px;top:72px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;flex-direction:column;align-items:stretch;box-shadow:0 20px 40px rgba(0,0,0,.15)} .menu.open{display:flex} .menu a{padding:13px 14px} .hamb{display:grid;place-items:center} .nav-cta{display:none} }
+.page{display:none} .page.active{display:block;animation:fade .25s ease} @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{background:var(--navy);color:#fff;padding:56px 0 64px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.hero h1{font-size:clamp(38px,6vw,64px);margin:18px 0 16px} .hero h1 em{color:var(--gold2);font-style:normal}
+.hero p{color:#cbd5e1;font-size:18px;max-width:560px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:28px} .stats b{font-size:20px;display:block} .stats span{font-size:13px;color:#94a3b8}
+.browser{border-radius:18px;overflow:hidden;background:#fff;color:#111827;box-shadow:0 24px 60px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.2)}
+.browser-bar{display:flex;gap:6px;align-items:center;padding:10px 12px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-size:12px;color:#64748b}
+.dot{width:10px;height:10px;border-radius:50%}
+.mock-hero{padding:18px;background:linear-gradient(135deg,#0b1d33,#1e3a5f);color:#fff} .mock-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:14px} .mock-card{border:1px solid #e5e7eb;border-radius:12px;padding:10px} .mock-card i{display:block;height:42px;border-radius:8px;margin-bottom:8px}
+.section{padding:64px 0} .section.alt{background:var(--bg2)} .sec-head{max-width:720px} .sec-head h2{font-size:clamp(28px,4vw,40px);margin-bottom:10px} .sec-head p{color:var(--muted);font-size:17px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px} .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+@media(max-width:860px){.grid3,.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h3{font-size:19px;margin-bottom:8px} .card p{color:var(--muted);margin:0}
+.icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;margin-bottom:14px;background:#fff7d6}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px} @media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{padding:22px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line)} .step-num{font-family:"Plus Jakarta Sans";font-weight:800;font-size:32px;color:var(--gold)}
+.template-card{overflow:hidden;padding:0} .template-preview{height:210px;padding:16px;color:#fff} .template-body{padding:20px}
+.pill{display:inline-block;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--bg2);border:1px solid var(--line)}
+ul.check{list-style:none;padding:0;margin:14px 0} ul.check li{padding:7px 0 7px 28px;position:relative;color:var(--muted)} ul.check li:before{content:"✓";position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:50%;background:#dcfce7;color:#166534;display:grid;place-items:center;font-size:12px;font-weight:800}
+.faq-item{border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:10px;overflow:hidden} .faq-q{width:100%;text-align:left;background:none;border:0;padding:18px 20px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;gap:16px;color:var(--ink)} .faq-a{display:none;padding:0 20px 18px;color:var(--muted)} .faq-item.open .faq-a{display:block}
+.coming{max-width:760px;margin:0 auto;text-align:center;padding:28px;border:1px dashed #cbd5e1;border-radius:20px;background:var(--card)} .price-big{font-family:"Plus Jakarta Sans";font-size:48px;font-weight:800;letter-spacing:-.04em}
+input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink)} label{font-weight:600;font-size:14px;display:block;margin:14px 0 6px} label:first-child{margin-top:0}
+footer{background:var(--navy);color:#cbd5e1;padding:44px 0 28px;margin-top:0} footer a:hover{color:#fff} .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px} @media(max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}} footer h4{color:#fff;margin:0 0 12px;font-family:"Plus Jakarta Sans"} footer ul{list-style:none;padding:0;margin:0} footer li{margin:8px 0}
+.note{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:12px;padding:14px 16px;font-size:14px}
+@media(prefers-color-scheme:dark){.note{background:#2a2110;color:#fcd34d;border-color:#554411}}
+.small{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="topbar">🚀 Launch offer — first stores onboarding soon &nbsp;·&nbsp; <span>Pricing coming soon</span></div>
+
+<header class="site">
+  <div class="container nav">
+    <a href="#/home" class="logo" data-nav="home"><span class="logo-mark">⚡</span><span>Meowji Platform<small>Rent a top-up store</small></span></a>
+    <nav class="menu" id="menu" aria-label="Main menu">
+      <a href="#/home" data-nav="home">Home</a>
+      <a href="#/templates" data-nav="templates">Templates</a>
+      <a href="#/pricing" data-nav="pricing">Pricing</a>
+      <a href="#/faq" data-nav="faq">FAQ</a>
+      <a href="#/contact" data-nav="contact">Contact</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn btn-gold nav-cta" href="#/contact" data-nav="contact">Get My Store →</a>
+      <button class="hamb" id="hamb" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HOME -->
+<main class="page" id="page-home">
+  <section class="hero"><div class="container hero-grid">
+    <div>
+      <span class="eyebrow">● MONTHLY RENTAL · NO CODING NEEDED</span>
+      <h1>Launch your own <em>top-up store</em> without building a website.</h1>
+      <p>Rent a ready-made game top-up website like Meowji Official &amp; Avardo — with your own products, prices, wallet, checkout and admin panel. Add your supplier keys and start selling.</p>
+      <div class="hero-actions"><a class="btn btn-gold" href="#/templates">View Templates →</a><a class="btn btn-white" href="#/pricing">See Pricing</a></div>
+      <div class="stats"><div><b>5</b><span>Store templates</span></div><div><b>New</b><span>Avardo Avento</span></div><div><b>Your keys</b><span>You control supply</span></div><div><b>Monthly</b><span>Rent, pause anytime</span></div></div>
+    </div>
+    <div class="browser" aria-label="Store preview">
+      <div class="browser-bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span><span style="margin-left:8px">yourstore.com — live preview</span></div>
+      <div class="mock-hero"><div style="font-weight:800;font-size:18px">Your Store Name</div><div style="color:#cbd5e1;font-size:13px">MLBB Diamonds • BGMI UC • Gift Cards — delivered fast</div><div style="margin-top:12px;background:#f5b301;color:#111827;display:inline-block;padding:8px 12px;border-radius:999px;font-weight:800;font-size:13px">Shop Top-Ups</div></div>
+      <div class="mock-grid">
+        <div class="mock-card"><i style="background:#dbeafe"></i><b style="font-size:13px">MLBB Diamonds</b><div style="font-size:12px;color:#64748b">From ₹83</div></div>
+        <div class="mock-card"><i style="background:#fef3c7"></i><b style="font-size:13px">BGMI UC</b><div style="font-size:12px;color:#64748b">From ₹80</div></div>
+        <div class="mock-card"><i style="background:#fce7f3"></i><b style="font-size:13px">Gift Cards</b><div style="font-size:12px;color:#64748b">Instant</div></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div class="sec-head"><h2>How renting works</h2><p>From signup to your first sale in three steps. Your live Meowji &amp; Avardo stores are not touched — you get your own separate copy.</p></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Pick a template</h3><p style="color:var(--muted)">Choose Meowji Classic, Avardo Sakura, Pay Landing, the SaaS MLBB Store — or the new Avardo Avento store. Add your store name, logo and colours.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Add your supplier keys</h3><p style="color:var(--muted)">Sellers bring their own supplier keys. Your keys, your margins, your fulfilment — we never use ours for your orders.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Start selling</h3><p style="color:var(--muted)">Share your store link, take UPI / WhatsApp orders, and manage everything from your admin panel.</p></div>
+    </div>
+  </div></section>
+
+  <section class="section alt"><div class="container">
+    <div class="sec-head"><h2>Everything a top-up seller needs</h2><p>The same engine that powers real stores — products, wallet, resellers and checkout included.</p></div>
+    <div class="grid3">
+      <div class="card"><div class="icon">🛍️</div><h3>Products &amp; variants</h3><p>Add games, diamond / UC packs and variants with your own retail and reseller prices.</p></div>
+      <div class="card"><div class="icon">👛</div><h3>Customer wallet</h3><p>Wallet balance, vouchers and order history — customers can top up and check out faster.</p></div>
+      <div class="card"><div class="icon">💳</div><h3>UPI + WhatsApp checkout</h3><p>Online payment flow plus a WhatsApp checkout option for buyers who prefer chat.</p></div>
+      <div class="card"><div class="icon">👥</div><h3>Reseller system</h3><p>Give resellers special pricing and let them sell for you. Grow without extra staff.</p></div>
+      <div class="card"><div class="icon">🔑</div><h3>Your supplier keys</h3><p>Connect your own Busan / supplier account. Stock and fulfilment stay fully under your control.</p></div>
+      <div class="card"><div class="icon">⚙️</div><h3>Full admin panel</h3><p>Orders, products, banners, settings and customers — manage your whole store in one place.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:28px"><a class="btn btn-dark" href="#/templates">Compare the 5 templates →</a></div>
+  </div></section>
+
+  <!-- SAAS MLBB STORE SPOTLIGHT -->
+  <section class="section" style="padding-top:0"><div class="container">
+    <div style="border-radius:22px;overflow:hidden;background:linear-gradient(135deg,#0b1d33 0%,#172f52 55%,#3b1d4d 100%);color:#fff">
+      <div style="display:grid;grid-template-columns:1.05fr .95fr;gap:0" class="mlbb-spot-grid">
+        <div style="padding:32px 28px">
+          <span class="pill" style="background:var(--gold);border:0;color:#111827">★ NEW — JUST ADDED</span>
+          <h2 style="font-size:clamp(28px,4vw,38px);margin:16px 0 10px;color:#fff">SaaS MLBB Store</h2>
+          <p style="color:#cbd5e1;margin:0;max-width:520px">A ready-made store built only for Mobile Legends: Bang Bang. No extra games cluttering the shop — just Diamonds, Weekly Diamond Pass and Twilight Pass, with User ID + Zone ID checkout made for MLBB buyers.</p>
+          <ul class="check" style="margin-top:16px">
+            <li style="color:#e2e8f0">Diamond packs, Weekly Diamond Pass &amp; Twilight Pass ready to list</li>
+            <li style="color:#e2e8f0">User ID + Zone ID fields with in-page ID checker</li>
+            <li style="color:#e2e8f0">Wallet, reseller pricing &amp; WhatsApp checkout included</li>
+            <li style="color:#e2e8f0">Your Busan / supplier keys — your stock, your margins</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">
+            <a class="btn btn-gold" href="#/contact" data-template="SaaS MLBB Store">Get the MLBB Store →</a>
+            <a class="btn btn-white" href="#/templates">See it in Templates</a>
+          </div>
+          <p style="font-size:13px;color:#94a3b8;margin-top:14px">Perfect if you sell only MLBB and want a focused store that converts faster than a general multi-game shop.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-left:1px solid rgba(255,255,255,.12);padding:24px">
+          <div style="background:#fff;color:#111827;border-radius:16px;overflow:hidden">
+            <div style="padding:16px 16px 12px;background:linear-gradient(135deg,#0b1d33,#1e3a5f);color:#fff">
+              <div style="font-weight:800;font-size:16px">Your MLBB Store</div>
+              <div style="font-size:13px;color:#cbd5e1">Diamonds delivered to User ID + Zone ID</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px">
+              <div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px"><b style="font-size:13px">💎 86 Diamonds</b><div style="font-size:12px;color:#64748b">Popular pack</div></div>
+              <div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px"><b style="font-size:13px">💎 172 Diamonds</b><div style="font-size:12px;color:#64748b">Best value</div></div>
+              <div style="border:1px solid #f5b301;border-radius:12px;padding:12px;background:#fffbeb"><b style="font-size:13px">🎟️ Weekly Pass</b><div style="font-size:12px;color:#64748b">Weekly Diamond Pass</div></div>
+              <div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px"><b style="font-size:13px">🌙 Twilight Pass</b><div style="font-size:12px;color:#64748b">Instant rewards</div></div>
+            </div>
+            <div style="padding:0 14px 14px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div style="border:1px solid #e5e7eb;border-radius:10px;padding:9px 10px;font-size:12px;color:#64748b">User ID</div>
+                <div style="border:1px solid #e5e7eb;border-radius:10px;padding:9px 10px;font-size:12px;color:#64748b">Zone ID (e.g. 1234)</div>
+              </div>
+              <div style="margin-top:10px;background:#0b1d33;color:#fff;text-align:center;padding:10px;border-radius:999px;font-weight:700;font-size:13px">Buy Now → WhatsApp / UPI</div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:#94a3b8;text-align:center;margin-top:12px">Preview mock — your store gets your name, logo, packs &amp; prices.</p>
+        </div>
+      </div>
+    </div>
+    <style>@media(max-width:860px){.mlbb-spot-grid{grid-template-columns:1fr !important}}</style>
+  </div></section>
+
+  <section class="section" style="padding-top:0"><div class="container">
+    <div class="grid2">
+      <div class="card" style="background:var(--navy);color:#fff;border:0"><h3 style="font-size:24px">Bring your own supplier keys</h3><p style="color:#cbd5e1;margin-top:8px">This is pure software rent. We provide the store, hosting setup and platform. You bring your supplier — so you keep your margins and carry no dependency on our supply.</p><a class="btn btn-gold" style="margin-top:18px" href="#/faq">Read FAQ →</a></div>
+      <div class="card"><h3 style="font-size:24px">Rent monthly. Pause if you stop.</h3><p style="margin-top:8px">Pay month to month for your store. If payment stops, your store pauses — your products and settings stay saved for when you return.</p><div class="note" style="margin-top:16px"><strong>Pricing is not live yet.</strong> We are finalising the monthly plan. Join via Contact and you'll be first to know.</div></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- TEMPLATES -->
+<main class="page" id="page-templates">
+  <section class="section"><div class="container">
+    <div class="sec-head"><h2>Choose your store template</h2><p>Five proven styles, based on real stores — now including the Avardo Avento copy and a dedicated SaaS MLBB Store for Mobile Legends sellers. Same powerful engine underneath — pick the look that fits your brand.</p></div>
+    <div class="grid3">
+      <article class="card template-card">
+        <div class="template-preview" style="background:linear-gradient(135deg,#0b1d33,#1e3a5f)"><span class="pill" style="background:#f5b301;border:0;color:#111">Most Popular</span><h3 style="font-size:24px;margin-top:14px;color:#fff">Meowji Classic</h3><p style="color:#cbd5e1">Dark navy + gold marketplace</p><p style="font-size:13px;color:#94a3b8">Inspired by <a href="https://www.meowjiofficial.bond" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;color:#cbd5e1">meowjiofficial.bond ↗</a></p></div>
+        <div class="template-body"><p>Full top-up marketplace for sellers who want everything — categories, search, wallet and resellers.</p><ul class="check"><li>Homepage sections &amp; banners you control</li><li>Wallet, vouchers &amp; reseller pricing</li><li>Game ID checker on product pages</li><li>Best for: MLBB, BGMI &amp; multi-game stores</li></ul><div style="display:grid;gap:10px"><a class="btn btn-dark" style="width:100%" href="#/contact" data-template="Meowji Classic">I want this template</a><a class="btn btn-outline" style="width:100%" href="https://www.meowjiofficial.bond" target="_blank" rel="noopener">🌐 View live website ↗</a></div></div>
+      </article>
+      <article class="card template-card">
+        <div class="template-preview" style="background:linear-gradient(135deg,#fff0f3,#ffe4e6);color:#3f1d2e"><span class="pill">Light &amp; Premium</span><h3 style="font-size:24px;margin-top:14px;color:#3f1d2e">Avardo Sakura</h3><p style="color:#6b4356">White + cherry-blossom pink theme</p><p style="font-size:13px;color:#9a6b7e">Inspired by <a href="https://www.avardoofficial.in" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;color:#6b4356">avardoofficial.in ↗</a></p></div>
+        <div class="template-body"><p>Clean, light and premium look that stands out from dark gaming stores. Great for a fresh, trusted brand feel.</p><ul class="check"><li>Light theme, soft pink accents</li><li>Same products, wallet &amp; checkout engine</li><li>Clean product pages &amp; banners</li><li>Best for: new brands &amp; gift-card sellers</li></ul><div style="display:grid;gap:10px"><a class="btn btn-dark" style="width:100%" href="#/contact" data-template="Avardo Sakura">I want this template</a><a class="btn btn-outline" style="width:100%" href="https://www.avardoofficial.in" target="_blank" rel="noopener">🌐 View live website ↗</a></div></div>
+      </article>
+      <article class="card template-card">
+        <div class="template-preview" style="background:linear-gradient(135deg,#111827,#374151)"><span class="pill" style="background:#fff">Simple &amp; Fast</span><h3 style="font-size:24px;margin-top:14px;color:#fff">Pay Landing</h3><p style="color:#d1d5db">One-page payment landing style</p><p style="font-size:13px;color:#9ca3af">Inspired by <a href="https://pay.mlbbstore.in" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;color:#d1d5db">pay.mlbbstore.in ↗</a></p></div>
+        <div class="template-body"><p>A focused single-page store for sellers who sell mainly through WhatsApp / Instagram and need a fast payment page.</p><ul class="check"><li>Single page — product, price, pay</li><li>Fastest to launch</li><li>Perfect for link-in-bio selling</li><li>Best for: solo sellers starting out</li></ul><div style="display:grid;gap:10px"><a class="btn btn-dark" style="width:100%" href="#/contact" data-template="Pay Landing">I want this template</a><a class="btn btn-outline" style="width:100%" href="https://pay.mlbbstore.in" target="_blank" rel="noopener">🌐 View live website ↗</a></div></div>
+      </article>
+      <article class="card template-card" style="border-color:var(--gold);box-shadow:0 10px 30px rgba(245,179,1,.14)">
+        <div class="template-preview" style="background:linear-gradient(135deg,#0b1d33,#3b1d4d)"><span class="pill" style="background:#f5b301;border:0;color:#111">★ New — MLBB Only</span><h3 style="font-size:24px;margin-top:14px;color:#fff">SaaS MLBB Store</h3><p style="color:#e9d5ff">Dedicated Mobile Legends diamond store</p><p style="font-size:13px;color:#c4b5fd">For MLBB-only sellers — Diamonds, Passes &amp; ID checkout</p></div>
+        <div class="template-body"><p>A focused SaaS store built only for MLBB — no multi-game clutter. Buyers enter User ID + Zone ID, pick a pack, and check out in seconds.</p><ul class="check"><li>Diamond packs, Weekly Diamond Pass &amp; Twilight Pass</li><li>User ID + Zone ID checkout with ID checker</li><li>Wallet, vouchers &amp; reseller pricing included</li><li>Best for: MLBB diamond sellers &amp; resellers</li></ul><div style="display:grid;gap:10px"><a class="btn btn-gold" style="width:100%" href="#/contact" data-template="SaaS MLBB Store">I want the MLBB Store</a><a class="btn btn-outline" style="width:100%" href="#/contact" data-template="SaaS MLBB Store">Ask about this store</a></div></div>
+      </article>
+      <article class="card template-card" style="border-color:var(--pink);box-shadow:0 10px 30px rgba(236,72,153,.14)">
+        <div class="template-preview" style="background:linear-gradient(135deg,#17171a,#3f1d2e 55%,#be185d)"><span class="pill" style="background:#ec4899;border:0;color:#fff">★ New — Avento Style</span><h3 style="font-size:24px;margin-top:14px;color:#fff">Avardo Avento</h3><p style="color:#fbcfe8">Modern app-like store — 5 colour themes</p><p style="font-size:13px;color:#f9a8d4">The Avardo Official customer copy — Avento-style UI</p></div>
+        <div class="template-body"><p>The Avardo copy of the Avento-style store — clean hero, glowing game cards, search &amp; filters, and a fast top-up panel. Sakura pink by default, switchable in one tap.</p><ul class="check"><li>15 games ready — MLBB regions, PUBG Mobile, Honor of Kings, bundles &amp; VIP</li><li>5 themes: Sakura, Dark, Light, Violet &amp; Cyber</li><li>Search, category filters &amp; glowing game cards</li><li>Top-up panel: Game ID, pack picker, payment options &amp; live order summary</li><li>Best for: sellers who want a modern, app-like storefront</li></ul><div style="display:grid;gap:10px"><a class="btn btn-dark" style="width:100%;background:var(--rose)" href="#/contact" data-template="Avardo Avento">I want this template</a><a class="btn btn-outline" style="width:100%" href="#/contact" data-template="Avardo Avento">Ask about this store</a></div></div>
+      </article>
+    </div>
+    <p class="small" style="margin-top:18px;text-align:center">All templates are copies for renters. The original Meowji Official, Avardo Official and pay.mlbbstore.in sites stay with their owner and are not transferred.</p>
+  </div></section>
+</main>
+
+<!-- PRICING -->
+<main class="page" id="page-pricing">
+  <section class="section"><div class="container">
+    <div class="sec-head" style="text-align:center;margin:0 auto"><h2>Pricing</h2><p>Simple monthly rent for your store. No per-order commission from us.</p></div>
+    <div class="coming" style="margin-top:28px">
+      <span class="pill">COMING SOON</span>
+      <div class="price-big" style="margin:14px 0 6px">Coming soon</div>
+      <p style="color:var(--muted);max-width:520px;margin:0 auto">We're finalising the monthly price. We won't publish a price until it's locked — join the waitlist and you'll get the launch price first, before it goes public.</p>
+      <form id="waitlistForm" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px;max-width:520px;margin-left:auto;margin-right:auto">
+        <input id="waitlistContact" type="text" placeholder="Your WhatsApp number or email" required style="flex:1;min-width:220px">
+        <button class="btn btn-gold" type="submit">Notify Me</button>
+      </form>
+      <p id="waitlistMsg" class="small" style="margin-top:12px"></p>
+    </div>
+    <div class="grid3">
+      <div class="card"><h3>What's included</h3><ul class="check"><li>Your chosen template, fully set up — including Avardo Avento &amp; the SaaS MLBB Store</li><li>Admin panel, wallet &amp; checkout</li><li>For MLBB: User ID + Zone ID checkout &amp; ID checker</li><li>Hosting setup guidance</li><li>Platform updates</li></ul></div>
+      <div class="card"><h3>How billing will work</h3><p>Pay monthly to keep your store live. Miss a payment and the store pauses — it doesn't get deleted. Pay again to resume.</p></div>
+      <div class="card"><h3>What you pay separately</h3><p>Your domain (if you want a custom one) and your supplier balance. Supplier keys and stock are yours — we never mark that up.</p></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- FAQ -->
+<main class="page" id="page-faq">
+  <section class="section"><div class="container" style="max-width:860px">
+    <div class="sec-head"><h2>Frequently asked questions</h2><p>Everything sellers ask before renting a store.</p></div>
+    <div style="margin-top:24px" id="faqList">
+      <div class="faq-item"><button class="faq-q">What exactly am I renting? <span>+</span></button><div class="faq-a">A complete top-up store website — storefront, product pages, wallet, checkout and admin panel — running on our platform engine. You rent it month to month; you own your brand, products, prices and customer relationships.</div></div>
+      <div class="faq-item"><button class="faq-q">Do I need my own supplier keys? <span>+</span></button><div class="faq-a">Yes. Sellers bring their own supplier keys (for example, your own Busan / supplier account). That keeps fulfilment and margins fully under your control. We provide the software, not the stock.</div></div>
+      <div class="faq-item"><button class="faq-q">Can I use my own domain? <span>+</span></button><div class="faq-a">Yes — you can connect your own domain to your rented store so customers see your brand, not ours. Setup steps are shared when your store is created.</div></div>
+      <div class="faq-item"><button class="faq-q">What happens if I don't pay for a month? <span>+</span></button><div class="faq-a">Your store pauses and stops taking new orders. Your products, prices and settings are kept, so you can resume by paying again — you don't start from zero.</div></div>
+      <div class="faq-item"><button class="faq-q">How much does it cost? <span>+</span></button><div class="faq-a">Pricing is coming soon. We're finalising one simple monthly plan. Join via the Pricing or Contact page and you'll be notified at launch.</div></div>
+      <div class="faq-item"><button class="faq-q">What is the SaaS MLBB Store? <span>+</span></button><div class="faq-a">It's our newest template — a store built only for Mobile Legends: Bang Bang. Instead of a general multi-game catalogue, everything is focused on MLBB: Diamond packs, Weekly Diamond Pass and Twilight Pass, with checkout asking for User ID + Zone ID and an ID checker on the product page. It includes the same wallet, reseller pricing, admin panel and UPI / WhatsApp checkout as the other templates. Choose “SaaS MLBB Store” on the Contact page to request it.</div></div>
+      <div class="faq-item"><button class="faq-q">What is the Avardo Avento template? <span>+</span></button><div class="faq-a">It's the Avardo Official customer copy, now listed as a rentable template. It uses the modern Avento-style layout — hero, search, category filters and glowing game cards for 15 games (MLBB regions, PUBG Mobile, Honor of Kings, bundles &amp; VIP), plus a top-up panel with Game ID entry, pack picker, payment options and a live order summary. It ships with 5 colour themes — Sakura (default), Dark, Light, Violet and Cyber — so you can match your brand in one tap. Choose “Avardo Avento” on the Contact page to request it.</div></div>
+      <div class="faq-item"><button class="faq-q">Can I sell OTT subscriptions too, or only game top-ups? <span>+</span></button><div class="faq-a">The templates are built for game top-ups (diamonds, UC, gift cards). You can list other digital products manually in your catalogue, but auto-fulfilment depends on your supplier keys.</div></div>
+      <div class="faq-item"><button class="faq-q">Do my customers pay me or the platform? <span>+</span></button><div class="faq-a">Your customers pay you through your store's checkout (UPI / WhatsApp flow you configure). The platform rent is separate — we don't take a cut of your sales.</div></div>
+      <div class="faq-item"><button class="faq-q">Is this the same as buying the script? <span>+</span></button><div class="faq-a">No. Buying a script is a one-time purchase you host and maintain yourself. Renting is monthly — we keep the platform updated and your store running, and you can pause anytime.</div></div>
+    </div>
+    <div class="card" style="margin-top:22px;text-align:center"><h3>Still have a question?</h3><p style="margin:8px 0 16px">Message us on the Contact page — tell us which template you like and how you plan to sell.</p><a class="btn btn-dark" href="#/contact">Contact Us →</a></div>
+  </div></section>
+</main>
+
+<!-- CONTACT -->
+<main class="page" id="page-contact">
+  <section class="section"><div class="container">
+    <div class="grid2" style="align-items:start">
+      <div>
+        <div class="sec-head"><h2>Contact us</h2><p>Tell us which template you want and a little about your store. We'll reply with next steps and the launch pricing when it's ready.</p></div>
+        <div class="card" style="margin-top:22px"><h3>Quick contact</h3><p style="margin-top:8px">📧 Email: <a href="mailto:meowjiofficial@gmail.com" style="font-weight:700;text-decoration:underline">meowjiofficial@gmail.com</a><br>💬 WhatsApp: <a href="https://wa.me/919366077306" target="_blank" rel="noopener" style="font-weight:700;text-decoration:underline">+91 93660 77306</a></p><p class="small" style="margin-top:10px">Reply time: usually within a day. Please mention “Store Rental” in your message so we can route it fast.</p></div>
+        <div class="card" style="margin-top:14px"><h3>What to include</h3><ul class="check"><li>Template you want (Meowji / Avardo Sakura / Avardo Avento / Pay Landing / SaaS MLBB Store)</li><li>Your store name &amp; domain if you have one</li><li>Games / products you plan to sell — for MLBB, your diamond packs &amp; passes</li><li>Whether you already have supplier keys</li></ul></div>
+      </div>
+      <div class="card">
+        <h3>Request your store</h3>
+        <form id="contactForm">
+          <label for="cf-name">Your name</label><input id="cf-name" required placeholder="Your name">
+          <label for="cf-contact">WhatsApp or email</label><input id="cf-contact" required placeholder="98765 43210 or you@email.com">
+          <label for="cf-template">Template I'm interested in</label>
+          <select id="cf-template"><option>Meowji Classic</option><option>Avardo Sakura</option><option>Avardo Avento</option><option>Pay Landing</option><option>SaaS MLBB Store</option><option>Not sure yet — help me choose</option></select>
+          <label for="cf-msg">Message</label><textarea id="cf-msg" rows="4" placeholder="I want to sell MLBB diamonds and BGMI UC. I already have supplier keys..."></textarea>
+          <button class="btn btn-gold" style="width:100%;margin-top:18px" type="submit">Send via WhatsApp →</button>
+          <button class="btn btn-outline" style="width:100%;margin-top:10px" type="button" id="emailBtn">Send via Email instead</button>
+          <p class="small" style="margin-top:10px;text-align:center">This opens WhatsApp / your email app with your message ready — nothing is sent until you press send there.</p>
+        </form>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="container">
+  <div class="foot-grid">
+    <div><div class="logo" style="color:#fff"><span class="logo-mark" style="background:#fff;color:#0b1d33">⚡</span><span>Meowji Platform</span></div><p style="font-size:14px;margin-top:12px;max-width:300px">Rent a ready-made top-up store. Your brand, your supplier keys, your customers — our platform.</p></div>
+    <div><h4>Website</h4><ul><li><a href="#/home">Home</a></li><li><a href="#/templates">Templates</a></li><li><a href="#/pricing">Pricing</a></li><li><a href="#/faq">FAQ</a></li><li><a href="#/contact">Contact</a></li></ul></div>
+    <div><h4>Templates</h4><ul><li><a href="#/templates">Meowji Classic</a></li><li><a href="#/templates">Avardo Sakura</a></li><li><a href="#/templates">Avardo Avento ★ New</a></li><li><a href="#/templates">Pay Landing</a></li><li><a href="#/templates">SaaS MLBB Store</a></li></ul></div>
+    <div><h4>Contact</h4><ul><li><a href="mailto:meowjiofficial@gmail.com">meowjiofficial@gmail.com</a></li><li><a href="https://wa.me/919366077306" target="_blank" rel="noopener">WhatsApp us</a></li><li><a href="#/contact">Request a store</a></li></ul></div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.15);margin-top:28px;padding-top:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px"><span>© 2026 Meowji Platform. All rights reserved.</span><span>Pricing coming soon · Sellers bring their own supplier keys</span></div>
+</div></footer>
+
+<script>
+var pages=['home','templates','pricing','faq','contact'];
+function currentPage(){
+  var h=(location.hash||'#/home').replace('#/','').split('?')[0];
+  return pages.indexOf(h)>=0?h:'home';
+}
+function render(){
+  var p=currentPage();
+  pages.forEach(function(id){
+    var el=document.getElementById('page-'+id);
+    if(el) el.classList.toggle('active', id===p);
+  });
+  document.querySelectorAll('[data-nav]').forEach(function(a){
+    if(a.getAttribute('data-nav')===p && a.closest('.menu')) a.classList.add('active'); else if(a.closest('.menu')) a.classList.remove('active');
+  });
+  var menu=document.getElementById('menu'); if(menu) menu.classList.remove('open');
+  window.scrollTo(0,0);
+  document.title = (p.charAt(0).toUpperCase()+p.slice(1)) + ' — Meowji Platform | Rent Your Own Top-Up Store';
+}
+window.addEventListener('hashchange', render);
+document.getElementById('hamb').addEventListener('click', function(){ document.getElementById('menu').classList.toggle('open'); });
+// Template preselect -> contact form
+document.querySelectorAll('[data-template]').forEach(function(a){
+  a.addEventListener('click', function(){
+    var t=a.getAttribute('data-template');
+    setTimeout(function(){ var s=document.getElementById('cf-template'); if(s) s.value=t; }, 50);
+  });
+});
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var item=btn.parentElement; var was=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); i.querySelector('.faq-q span').textContent='+'; });
+    if(!was){ item.classList.add('open'); btn.querySelector('span').textContent='−'; }
+  });
+});
+// Contact form -> WhatsApp / Email (no fake submit)
+function buildMsg(){
+  var name=document.getElementById('cf-name').value.trim();
+  var contact=document.getElementById('cf-contact').value.trim();
+  var tpl=document.getElementById('cf-template').value;
+  var msg=document.getElementById('cf-msg').value.trim();
+  return 'Hi, I want to rent a top-up store.\n\nName: '+name+'\nContact: '+contact+'\nTemplate: '+tpl+'\nMessage: '+(msg||'-');
+}
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  window.open('https://wa.me/919366077306?text='+encodeURIComponent(buildMsg()), '_blank');
+});
+document.getElementById('emailBtn').addEventListener('click', function(){
+  location.href='mailto:meowjiofficial@gmail.com?subject='+encodeURIComponent('Store Rental — '+document.getElementById('cf-template').value)+'&body='+encodeURIComponent(buildMsg());
+});
+// Waitlist -> WhatsApp
+document.getElementById('waitlistForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var c=document.getElementById('waitlistContact').value.trim();
+  var text='Hi, notify me when store rental pricing launches.\nMy contact: '+c;
+  document.getElementById('waitlistMsg').textContent='Opening WhatsApp with your request ready to send…';
+  window.open('https://wa.me/919366077306?text='+encodeURIComponent(text), '_blank');
+});
+render();
+</script>
+</body>
+</html>
